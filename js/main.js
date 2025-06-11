@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
       e.stopPropagation();
       if (!isAnimating && index !== currentSlide) {
         showSlide(index);
-        resetTimer();
+        // resetTimer(); // Removido para não reiniciar o timer
       }
     });
   });
@@ -99,7 +99,6 @@ document.addEventListener('DOMContentLoaded', function() {
       e.stopPropagation();
       if (!isAnimating) {
         showSlide(currentSlide - 1);
-        resetTimer();
       }
     });
     
@@ -108,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function() {
       e.stopPropagation();
       if (!isAnimating) {
         showSlide(currentSlide + 1);
-        resetTimer();
       }
     });
   }
@@ -125,7 +123,6 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         if (!isAnimating) {
           showSlide(currentSlide - 1);
-          resetTimer();
         }
         break;
         
@@ -133,7 +130,6 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         if (!isAnimating) {
           showSlide(currentSlide + 1);
-          resetTimer();
         }
         break;
         
@@ -141,7 +137,6 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         if (!isAnimating && currentSlide !== 0) {
           showSlide(0);
-          resetTimer();
         }
         break;
         
@@ -149,7 +144,6 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         if (!isAnimating && currentSlide !== totalSlides - 1) {
           showSlide(totalSlides - 1);
-          resetTimer();
         }
         break;
         
@@ -213,8 +207,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }, animationDuration);
   }
   
-  // Troca automática de slides
-  let slideInterval = setInterval(nextSlide, 5000);
+  // Troca automática de slides desabilitada
+  // let slideInterval = setInterval(nextSlide, 5000);
+  // O carrossel agora só avança manualmente.
   
   function nextSlide() {
     if (!isAnimating) {
@@ -231,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (carousel) {
     // Pausa ao passar o mouse
     carousel.addEventListener('mouseenter', () => {
-      clearInterval(slideInterval);
+      // clearInterval(slideInterval); // Não há mais timer para pausar
     });
     
     // Retoma ao remover o mouse
@@ -241,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Pausa ao tocar em dispositivos touch
     carousel.addEventListener('touchstart', () => {
-      clearInterval(slideInterval);
+      // clearInterval(slideInterval); // Não há mais timer para pausar
     });
     
     // Permite navegar arrastando em dispositivos touch
@@ -263,11 +258,9 @@ document.addEventListener('DOMContentLoaded', function() {
       if (touchEndX < touchStartX - swipeThreshold && !isAnimating) {
         // Swipe para a esquerda - próximo slide
         showSlide(currentSlide + 1);
-        resetTimer();
       } else if (touchEndX > touchStartX + swipeThreshold && !isAnimating) {
         // Swipe para a direita - slide anterior
         showSlide(currentSlide - 1);
-        resetTimer();
       }
     }
   }

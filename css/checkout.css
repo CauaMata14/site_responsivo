@@ -1,0 +1,113 @@
+/* Estilo checkout moderno, inspirado nas outras páginas */
+body, .checkout-container {
+  background: #f8f9fa !important;
+  font-family: 'Open Sans', Arial, sans-serif;
+}
+
+.bg-white.rounded.shadow-sm {
+  border-radius: 18px !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.09) !important;
+  background: #fff !important;
+  padding: 2.5rem 2rem 2rem 2rem !important;
+}
+
+.checkout-steps {
+  margin-bottom: 2rem;
+}
+.checkout-steps .step-number {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background: #e9ecef;
+  color: #6c757d;
+  border-radius: 50%;
+  display: inline-block;
+}
+.checkout-steps .active .step-number {
+  background: #6c63ff;
+  color: #fff;
+}
+.checkout-steps .step-title {
+  font-size: 0.95rem;
+  color: #6c757d;
+}
+
+.order-summary h3 {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2rem;
+  color: #6c63ff;
+  text-align: center;
+}
+.order-items {
+  margin-bottom: 1.5rem;
+}
+.order-item {
+  background: #f5f6fa;
+  border: 1px solid #ececec;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 1px 5px rgba(108,99,255,0.03);
+}
+.order-item-title {
+  color: #333;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+.order-totals {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+}
+.order-total {
+  font-size: 1.08rem;
+  margin-bottom: 0.5rem;
+}
+.order-total.fw-bold {
+  font-size: 1.2rem;
+  color: #6c63ff;
+}
+
+.payment-form h2 {
+  font-family: 'Dancing Script', cursive;
+  color: #6c63ff;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+.payment-methods .form-check {
+  transition: box-shadow 0.2s;
+}
+.payment-methods .form-check-input:checked + .form-check-label {
+  font-weight: bold;
+  color: #fff;
+  background: #6c63ff;
+  border-radius: 8px;
+}
+.payment-methods .form-check-label {
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0.8rem 0;
+}
+
+.btn-success {
+  background: linear-gradient(90deg, #6c63ff 60%, #5ee7df 100%) !important;
+  border: none !important;
+  font-weight: bold;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 8px rgba(108,99,255,0.08);
+}
+.btn-success:hover {
+  background: linear-gradient(90deg, #5ee7df 0%, #6c63ff 100%) !important;
+  color: #fff !important;
+}
+
+@media (max-width: 600px) {
+  .bg-white.rounded.shadow-sm {
+    padding: 1.2rem 0.5rem !important;
+  }
+  .order-item, .order-totals {
+    padding: 0.8rem 0.5rem;
+  }
+}

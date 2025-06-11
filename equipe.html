@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Equipe - Floricultura Amor & Flor</title>
+  <!-- Font Awesome via CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap local -->
+  <link rel="stylesheet" href="vendor/bootstrap.min.css">
+  <!-- Estilo personalizado -->
+  <link rel="stylesheet" href="css/style-clean.css">
+  <link rel="stylesheet" href="css/cart.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="imagens/logo.png">
+  <style>
+    /* Estilos específicos para a página da equipe */
+    .team-page {
+      padding: 40px 0;
+      background-color: #f9f9f9;
+    }
+    
+    .page-title {
+      text-align: center;
+      font-family: 'Dancing Script', cursive;
+      color: #ff69b4;
+      margin-bottom: 40px;
+      font-size: 2.5em;
+    }
+    
+    .team-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .team-member-card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .member-image {
+      margin-bottom: 25px;
+    }
+    
+    .member-image img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 6px solid #ff69b4;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .team-member-card h2 {
+      color: #333;
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.2em;
+      margin: 10px 0;
+    }
+    
+    .team-member-card h4 {
+      color: #777;
+      font-weight: 400;
+      margin-bottom: 20px;
+      font-size: 1.2em;
+    }
+    
+    .member-description {
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+    
+    .member-description p {
+      margin-bottom: 15px;
+    }
+    
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #e4405f;
+      font-size: 1.1em;
+      transition: all 0.3s ease;
+    }
+    
+    .social-links a:hover {
+      color: #c13584;
+      transform: translateY(-2px);
+    }
+    
+    .social-links i {
+      margin-right: 8px;
+      font-size: 1.5em;
+    }
+    
+    @media (max-width: 768px) {
+      .team-member-card {
+        padding: 20px 15px;
+      }
+      
+      .member-image img {
+        width: 180px;
+        height: 180px;
+      }
+      
+      .team-member-card h2 {
+        font-size: 1.8em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header / Menu -->
+  <header class="header">
+    <div class="container">
+      <div class="logo">
+        <a href="index.html">
+          <img src="imagens/logo.png" alt="Logo Floricultura">
+        </a>
+      </div>
+      <nav class="nav-menu">
+        <a href="index.html">Início</a>
+        <a href="produtos.html">Produtos</a>
+        <a href="contatos.html">Contato</a>
+        <a href="equipe.html" class="active">Nossa Equipe</a>
+      </nav>
+      <div class="nav-cart">
+        <a href="#" id="carrinhoBtn">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="team-page">
+    <h1 class="page-title">Nossa Equipe</h1>
+    <div class="team-container">
+      <div class="team-member-card">
+        <div class="member-image">
+          <img src="imagens/caua.jpg" alt="Cauã">
+        </div>
+        <h2>Cauã</h2>
+        <h4>Fundador e Florista</h4>
+        <div class="member-description">
+          <p>Com mais de 5 anos de experiência em floricultura, Cauã é o responsável por criar arranjos únicos e cuidar de todas as plantas da loja.</p>
+          <p>Seu olhar atento aos detalhes e paixão pelas flores garantem que cada arranjo seja especial e único.</p>
+        </div>
+        <div class="social-links" style="text-align: center; margin: 20px auto 0; max-width: 600px; padding: 0 15px;">
+          <a href="https://www.instagram.com/_.caua.mata._?igsh=MW9nYjRuNndpamFqdw==" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; color: #333; font-weight: 500; padding: 10px 20px; background: #f8f8f8; border-radius: 50px; transition: all 0.3s ease; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+            <i class="fab fa-instagram" style="font-size: 1.4rem; color: #E1306C;"></i>
+            <span style="font-size: 1.1rem;">@caua.floricultura</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section about">
+          <h3>Sobre Nós</h3>
+          <p>A Floricultura Amor & Flor está no mercado há mais de 10 anos, levando alegria e beleza para nossos clientes com os melhores arranjos florais.</p>
+          <div class="socials">
+            <a href="https://www.instagram.com/amoreflor.floricultura.lrv/" target="_blank"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-section links">
+          <h3>Links Rápidos</h3>
+          <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="produtos.html">Produtos</a></li>
+            <li><a href="contatos.html">Contato</a></li>
+            <li><a href="equipe.html">Nossa Equipe</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section contact">
+          <h3>Contato</h3>
+          <p><i class="fas fa-map-marker-alt"></i> Rua das Flores, 123 - Centro</p>
+          <p><i class="fas fa-phone"></i> (99) 99999-9999</p>
+          <p><i class="fas fa-envelope"></i> contato@amoreflor.com.br</p>
+          <p><i class="fas fa-clock"></i> Seg-Sex: 08:00 - 18:00 | Sáb: 08:00 - 12:00</p>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 Floricultura Amor & Flor. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS local -->
+  <script src="vendor/bootstrap.min.js"></script>
+  <!-- Scripts customizados -->
+  <script src="js/script.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/simple-cart.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+/* Estilos personalizados para o carrinho */
+
+.order-item-img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border: 1px solid #eee;
+  background: #fff;
+  vertical-align: middle;
+}

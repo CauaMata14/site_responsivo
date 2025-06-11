@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produtos - Floricultura Amor & Flor</title>
+  <!-- Font Awesome via CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap local -->
+  <link rel="stylesheet" href="vendor/bootstrap.min.css">
+  <!-- Estilo personalizado -->
+  <link rel="stylesheet" href="css/style-clean.css">
+  <link rel="stylesheet" href="css/cart.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="imagens/logo.png">
+  <style>
+    /* Estilos para o modal do carrinho */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 24px;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    
+    /* Estilos para os itens do carrinho */
+    .carrinho-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .carrinho-item img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-right: 15px;
+    }
+    
+    .carrinho-item-detalhes {
+      flex: 1;
+    }
+    
+    .carrinho-item h4 {
+      margin: 0 0 5px 0;
+      font-size: 16px;
+    }
+    
+    .preco {
+      margin: 0;
+      font-weight: bold;
+      color: #2e7d32;
+    }
+    
+    .quantidade {
+      display: flex;
+      align-items: center;
+      margin-top: 5px;
+    }
+    
+    .quantidade button {
+      background: #f5f5f5;
+      border: 1px solid #ddd;
+      width: 25px;
+      height: 25px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .quantidade span {
+      margin: 0 10px;
+    }
+    
+    .remover-item {
+      background: none;
+      border: none;
+      color: #e53935;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    /* Estilos para o resumo do pedido */
+    .resumo-pedido {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 8px;
+    }
+    
+    .resumo-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    
+    .resumo-total {
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #ddd;
+    }
+    
+    /* Estilos para os campos de pagamento */
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    
+    .formas-pagamento {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 15px 0;
+    }
+    
+    .radio-container {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    .radio-container input[type="radio"] {
+      margin-right: 10px;
+      width: auto;
+    }
+    
+    /* Estilos para o botão de finalizar compra */
+    .btn-finalizar {
+      width: 100%;
+      padding: 12px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    
+    .btn-finalizar:hover {
+      background: #45a049;
+    }
+    
+    /* Estilos para o toast de notificação */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #333;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      z-index: 1000;
+      transform: translateX(150%);
+      transition: transform 0.3s ease;
+    }
+    
+    .toast.active {
+      transform: translateX(0);
+    }
+    
+    .toast.success {
+      background: #4CAF50;
+    }
+    
+    .toast.error {
+      background: #f44336;
+    }
+    
+    .toast i {
+      margin-right: 10px;
+      font-size: 20px;
+    }
+    
+    .close-toast {
+      margin-left: 15px;
+      cursor: pointer;
+    }
+    
+    .progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.3);
+      overflow: hidden;
+    }
+    
+    .progress::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 100%;
+      height: 100%;
+      background: white;
+      animation: progress 3s linear forwards;
+    }
+    
+    @keyframes progress {
+      100% {
+        right: 0;
+      }
+    }
+    
+    /* Estilo para botão de adicionar ao carrinho */
+    .btn-add-to-cart.added-to-cart {
+      background: #4CAF50 !important;
+      animation: pulse 0.5s ease;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    /* Estilo para o código PIX */
+    .codigo-pix {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      text-align: center;
+    }
+    
+    .codigo-pix img {
+      max-width: 200px;
+      margin: 10px 0;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .btn-copiar {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    
+    .btn-copiar:hover {
+      background: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header / Menu -->
+  <header class="header">
+    <div class="container">
+      <div class="logo">
+        <a href="index.html">
+          <img src="imagens/logo.png" alt="Logo Floricultura">
+        </a>
+      </div>
+      <nav class="nav-menu">
+        <a href="index.html">Início</a>
+        <a href="produtos.html" class="active">Produtos</a>
+        <a href="contatos.html">Contato</a>
+        <a href="equipe.html">Nossa Equipe</a>
+      </nav>
+      <div class="nav-cart">
+        <button id="abrirCarrinho" class="btn-carrinho" aria-label="Abrir carrinho">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count" style="display: none;"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <section class="page-header">
+      <h1>Nossos Produtos</h1>
+      <p>Encontre o presente perfeito para todas as ocasiões</p>
+    </section>
+
+    <!-- Lista de Produtos -->
+    <section class="products-grid">
+      <!-- Produto 1 - Arranjo de Rosas -->
+      <div class="product-card">
+        <div class="product-img">
+          <img src="imagens/arranjo-rosas-vermelhas.jpg" alt="Arranjo de Rosas">
+          <div class="product-overlay">
+            <button class="add-to-cart-btn" data-id="1" data-name="Arranjo de Rosas Vermelhas" data-price="129.90" data-image="imagens/arranjo-rosas-vermelhas.jpg">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3>Arranjo de Rosas Vermelhas</h3>
+          <p class="price">R$ 129,90</p>
+        </div>
+      </div>
+
+      <!-- Produto 2 - Buquê de Gérberas -->
+      <div class="product-card">
+        <div class="product-img">
+          <img src="imagens/buque-gerberas-coloridas.jpg" alt="Buquê de Gérberas">
+          <div class="product-overlay">
+            <button class="add-to-cart-btn" data-id="2" data-name="Buquê de Gérberas Coloridas" data-price="149.90" data-image="imagens/buque-gerberas-coloridas.jpg">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3>Buquê de Gérberas Coloridas</h3>
+          <p class="price">R$ 149,90</p>
+        </div>
+      </div>
+
+      <!-- Produto 3 - Orquídeas Brancas -->
+      <div class="product-card">
+        <div class="product-img">
+          <img src="imagens/orquideas-brancas-em-vaso.jpg" alt="Orquídeas Brancas">
+          <div class="product-overlay">
+            <button class="add-to-cart-btn" data-id="3" data-name="Orquídeas Brancas em Vaso" data-price="199.90" data-image="imagens/orquideas-brancas-em-vaso.jpg">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3>Orquídeas Brancas em Vaso</h3>
+          <p class="price">R$ 199,90</p>
+        </div>
+      </div>
+
+      <!-- Produto 4 - Arranjo de Lírios -->
+      <div class="product-card">
+        <div class="product-img">
+          <img src="imagens/arranjo-lirios-brancos.jpg" alt="Arranjo de Lírios">
+          <div class="product-overlay">
+            <button class="add-to-cart-btn" data-id="4" data-name="Arranjo de Lírios Brancos" data-price="179.90" data-image="imagens/arranjo-lirios-brancos.jpg">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3>Arranjo de Lírios Brancos</h3>
+          <p class="price">R$ 179,90</p>
+        </div>
+      </div>
+
+      <!-- Produto 5 - Suculentas Decorativas -->
+      <div class="product-card">
+        <div class="product-img">
+          <img src="imagens/suculentas-decorativas.jpg" alt="Suculentas Decorativas">
+          <div class="product-overlay">
+            <button class="add-to-cart-btn" data-id="5" data-name="Suculentas Decorativas" data-price="89.90" data-image="imagens/suculentas-decorativas.jpg">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3>Suculentas Decorativas</h3>
+          <p class="price">R$ 89,90</p>
+        </div>
+      </div>
+
+      <!-- Produto 6 - Rosas Amarelas -->
+      <div class="product-card">
+        <div class="product-img">
+          <img src="imagens/rosa-vermelha-branca.jpg" alt="Rosas Amarelas">
+          <div class="product-overlay">
+            <button class="add-to-cart-btn" data-id="6" data-name="Buquê de Rosas Amarelas" data-price="159.90" data-image="imagens/rosa-vermelha-branca.jpg">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3>Buquê de Rosas Amarelas</h3>
+          <p class="price">R$ 159,90</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Paginação -->
+    <div class="pagination">
+      <a href="#" class="active">1</a>
+      <a href="#">2</a>
+      <a href="#">3</a>
+      <a href="#">Próximo <i class="fas fa-chevron-right"></i></a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Sobre Nós</h3>
+          <p>Há mais de 10 anos levando beleza e alegria para os momentos especiais da sua vida.</p>
+        </div>
+        <div class="footer-section">
+          <h3>Horário de Funcionamento</h3>
+          <p>Segunda a Sábado: 8h às 20h</p>
+          <p>Domingo: 9h às 18h</p>
+        </div>
+        <div class="footer-section">
+          <h3>Contato</h3>
+          <p><i class="fas fa-phone"></i> (11) 1234-5678</p>
+          <p><i class="fas fa-envelope"></i> contato@amoreflor.com.br</p>
+          <p><i class="fas fa-map-marker-alt"></i> Rua das Flores, 123 - Centro</p>
+        </div>
+        <div class="footer-section">
+          <h3>Redes Sociais</h3>
+          <div class="social-links">
+            <a href="https://www.instagram.com/amoreflor.floricultura.lrv/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2023 Floricultura Amor & Flor. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal do Carrinho -->
+  <div class="modal" id="modalCarrinho">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Meu Carrinho</h3>
+        <button type="button" class="close-modal" onclick="fecharModalCarrinho()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="carrinhoVazio" style="display: none; text-align: center; padding: 20px 0;">
+          <i class="fas fa-shopping-cart" style="font-size: 48px; color: #ccc; margin-bottom: 15px;"></i>
+          <h4>Seu carrinho está vazio</h4>
+          <p>Adicione itens ao carrinho para continuar</p>
+        </div>
+        
+        <div id="carrinhoComItens" style="display: none;">
+          <div id="carrinhoItens"></div>
+          <div class="carrinho-total">
+            <span>Total:</span>
+            <span id="carrinhoTotal">R$ 0,00</span>
+          </div>
+          <button id="finalizarCompraBtn" class="btn-finalizar">Finalizar Compra</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Pagamento -->
+  <div class="modal" id="modalPagamento">
+    <div class="modal-content" style="max-width: 500px;">
+      <div class="modal-header">
+        <h3>Finalizar Compra</h3>
+        <button type="button" class="close-modal" onclick="fecharModalPagamento()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="resumo-pedido">
+          <h4>Resumo do Pedido</h4>
+          <div id="resumoItens" style="max-height: 200px; overflow-y: auto; margin: 10px 0; padding: 10px; border: 1px solid #eee; border-radius: 5px;">
+            <!-- Itens do pedido serão inseridos aqui via JavaScript -->
+          </div>
+          <div class="resumo-total" style="text-align: right; font-size: 1.2em; font-weight: bold;">
+            Total: <span id="resumoTotal">R$ 0,00</span>
+          </div>
+        </div>
+        
+        <form id="formPagamento" onsubmit="event.preventDefault(); finalizarCompra(event);">
+          <div class="form-group">
+            <h4>Forma de Pagamento</h4>
+            <div class="formas-pagamento">
+              <label class="radio-container" style="display: flex; align-items: center; padding: 10px; border: 1px solid #ddd; border-radius: 5px; cursor: pointer;">
+                <input type="radio" name="forma_pagamento" value="pix" checked style="margin-right: 10px;">
+                <div style="flex: 1;">
+                  <div style="font-weight: bold;">PIX</div>
+                  <div style="font-size: 0.9em; color: #666;">Pagamento instantâneo</div>
+                </div>
+                <i class="fas fa-qrcode" style="font-size: 24px; color: #32BCAD;"></i>
+              </label>
+              
+              <label class="radio-container" style="display: flex; align-items: center; padding: 10px; border: 1px solid #ddd; border-radius: 5px; cursor: pointer;">
+                <input type="radio" name="forma_pagamento" value="credito" style="margin-right: 10px;">
+                <div style="flex: 1;">
+                  <div style="font-weight: bold;">Cartão de Crédito</div>
+                  <div style="font-size: 0.9em; color: #666;">Até 12x sem juros</div>
+                </div>
+                <i class="far fa-credit-card" style="font-size: 24px; color: #1A237E;"></i>
+              </label>
+              
+              <label class="radio-container" style="display: flex; align-items: center; padding: 10px; border: 1px solid #ddd; border-radius: 5px; cursor: pointer;">
+                <input type="radio" name="forma_pagamento" value="debito" style="margin-right: 10px;">
+                <div style="flex: 1;">
+                  <div style="font-weight: bold;">Cartão de Débito</div>
+                  <div style="font-size: 0.9em; color: #666;">Desconto de 5%</div>
+                </div>
+                <i class="fas fa-credit-card" style="font-size: 24px; color: #0D47A1;"></i>
+              </label>
+            </div>
+          </div>
+          
+          <!-- Campos para cartão de crédito/débito -->
+          <div id="camposCartao" class="campos-cartao" style="display: none;">
+            <div class="form-group">
+              <label for="nome">Nome no Cartão</label>
+              <input type="text" id="nome" name="nome" placeholder="Como está no cartão" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="numeroCartao">Número do Cartão</label>
+              <input type="text" id="numeroCartao" name="numeroCartao" placeholder="0000 0000 0000 0000" required maxlength="19">
+            </div>
+            
+            <div style="display: flex; gap: 15px;">
+              <div class="form-group" style="flex: 1;">
+                <label for="validade">Validade</label>
+                <input type="text" id="validade" name="validade" placeholder="MM/AA" required maxlength="5">
+              </div>
+              
+              <div class="form-group" style="flex: 1;">
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" name="cvv" placeholder="000" required maxlength="4" style="width: 100%;">
+              </div>
+            </div>
+            
+            <div class="form-group" id="parcelamento" style="display: none;">
+              <label for="parcelas">Parcelas</label>
+              <select id="parcelas" name="parcelas" class="form-control">
+                <option value="1">1x de R$ 0,00 sem juros</option>
+              </select>
+            </div>
+          </div>
+          
+          <!-- Campo para PIX -->
+          <div id="codigoPix" class="codigo-pix">
+            <h4>Pague com PIX</h4>
+            <p>Escaneie o QR Code ou copie o código para efetuar o pagamento</p>
+            <img src="imagens/qrcode-pix.png" alt="QR Code PIX">
+            <p>Chave PIX (e-mail): pagamento@amoreflor.com.br</p>
+            <button type="button" class="btn-copiar" onclick="copiarChavePix('pagamento@amoreflor.com.br')">
+              <i class="fas fa-copy"></i> Copiar Chave PIX
+            </button>
+          </div>
+          
+          <button type="submit" class="btn-finalizar">
+            <i class="fas fa-check-circle"></i> Confirmar Pagamento
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast de notificação -->
+  <div class="toast" id="toastAdicionado">
+    <div class="toast-content">
+      <i class="fas fa-check-circle"></i>
+      <div class="message">
+        <span class="text">Item adicionado ao carrinho</span>
+      </div>
+    </div>
+    <i class="fa-solid fa-xmark close-toast"></i>
+    <div class="progress"></div>
+  </div>
+
+  <!-- Bootstrap JS local -->
+  <script src="vendor/bootstrap.min.js"></script>
+  <!-- Scripts customizados -->
+  
+  
+  
+  
+  <script>
+    // Adiciona tooltips aos botões de ação
+    document.addEventListener('DOMContentLoaded', function() {
+      const tooltipTriggerList = [].slice.call(document.querySelectorAll('[title]'));
+      tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl, {
+          trigger: 'hover',
+          placement: 'top'
+        });
+      });
+      
+      // Adiciona animação ao adicionar itens ao carrinho
+      document.addEventListener('click', function(e) {
+        const botao = e.target.closest('.btn-add-to-cart');
+        if (botao) {
+          botao.classList.add('added-to-cart');
+          const originalHTML = botao.innerHTML;
+          botao.innerHTML = '<i class="fas fa-check"></i>';
+          botao.disabled = true;
+          
+          // Remove a classe após a animação terminar
+          setTimeout(() => {
+            botao.classList.remove('added-to-cart');
+            botao.innerHTML = originalHTML;
+            botao.disabled = false;
+          }, 1000);
+        }
+      });
+      
+      // O evento do botão do carrinho é gerenciado pelo carrinho.js
+    });
+    
+    // Função para copiar chave PIX
+    function copiarChavePix(chave) {
+      navigator.clipboard.writeText(chave).then(() => {
+        // Mostrar notificação de sucesso
+        const toast = document.getElementById('toastAdicionado');
+        if (toast) {
+          toast.innerHTML = `
+            <div class="toast-content">
+              <i class="fas fa-check-circle"></i>
+              <div class="message">
+                <span class="text">Chave PIX copiada com sucesso!</span>
+              </div>
+            </div>
+            <i class="fa-solid fa-xmark close-toast"></i>
+            <div class="progress"></div>
+          `;
+          toast.className = 'toast success active';
+          
+          // Configurar fechamento automático
+          setTimeout(() => {
+            toast.classList.remove('active');
+          }, 3000);
+          
+          // Adicionar evento de clique para fechar
+          const closeBtn = toast.querySelector('.close-toast');
+          if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+              toast.classList.remove('active');
+            });
+          }
+        }
+      }).catch(err => {
+        console.error('Erro ao copiar chave PIX:', err);
+      });
+    }
+  </script>
+  
+<script src="js/cart-modern.js"></script>
+</body>
+</html>

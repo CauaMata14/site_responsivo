@@ -79,10 +79,6 @@ class Cart {
           image: btn.dataset.image || ''
         };
         this.addItem(product);
-        // Se estiver na página de produtos, redireciona para checkout
-        if (window.location.pathname.includes('produtos.html')) {
-          window.location.href = 'checkout.html';
-        }
       });
     });
   }

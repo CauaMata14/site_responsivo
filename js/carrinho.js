@@ -332,11 +332,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Adicionar item ao carrinho
   window.adicionarAoCarrinho = function(produto) {
+    // Garante que o carrinho aceite vários tipos de flor
     const itemExistente = carrinho.find(item => item.id === produto.id);
 
     if (itemExistente) {
       itemExistente.quantidade++;
     } else {
+      // Adiciona novo tipo de flor ao carrinho
       carrinho.push({
         ...produto,
         quantidade: 1
@@ -345,12 +347,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     renderizarCarrinho();
     atualizarContadorCarrinho();
-    mostrarNotificacao('Item adicionado ao carrinho');
+    mostrarNotificacao(produto.nome ? produto.nome + ' adicionado ao carrinho' : 'Item adicionado ao carrinho');
 
     // Abrir o carrinho automaticamente
     if (modalCarrinho) {
       modalCarrinho.style.display = 'block';
     }
+    // Atualiza o localStorage para persistência entre páginas
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
   };
 
   // Finalizar compra
@@ -398,7 +402,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
       
-      if (!/^(0[1-9]|1[0-2])\\/([0-9]{2})$/.test(validade)) {
+      if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(validade)) {
         mostrarNotificacao('Data de validade inválida (use o formato MM/AA)', 'error');
         return;
       }
